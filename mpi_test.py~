@@ -1,0 +1,7 @@
+from mpi4py impor MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+print(f"Hello, world!! This is from rank {rank} out of {size}!!")
