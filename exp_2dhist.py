@@ -24,7 +24,9 @@ for file_name in files:
     image = cv2.imread(file_name)
     rows, cols, depth = image.shape
 
-    id = file_name.split('_')[0]
+    tmp = file_name.split('/')[3]
+    id = tmp.split('_')[0]
+    # pdb.set_trace()
 
     r = image[:,:,2].copy()
     g = image[:,:,1].copy()
@@ -65,7 +67,7 @@ for file_name in files:
     ax.set_ylabel('G-B')
     fig.colorbar(H[3],ax=ax)
 
-    output = 'hist2d_' + class_id + '_' + str(id) + '.png'
+    output = 'hist2d_' + class_id + '_' + id + '.png'
     fig.savefig(output)
     # plt.show()
 
