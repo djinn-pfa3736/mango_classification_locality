@@ -15,7 +15,7 @@ import pdb
 dir_name = sys.argv[1]
 class_id = sys.argv[2]
 
-files = glob.glob(dir_name + '/*_shrinked.JPG')
+files = glob.glob(dir_name + '/IMG_*.JPG')
 
 a_vec = []
 b_vec = []
@@ -31,12 +31,23 @@ for file_name in files:
     rows, cols, depth = image.shape
 
     tmp = file_name.split('/')[3]
-    id = tmp.split('_')[0]
+    tmp = tmp.split('_')[1]
+    id = tmp.split('.')[0]
 
-    pdb.set_trace()
+    # pdb.set_trace()
 
-    image_lab = cv2.cvtColor(image, cv2.COLOR_BGR2Lab)
+    background_ind = np.where((150 < image[:,:,0]) & (150 < image[:,:,1]) & (150 < image[:,:,2]), True, False)
+    image_ind = ~background_ind
+
+    image_sub = np.zeros_like(image)
+    image_sub[image_ind] = image[image_ind]
+    # image_sub = cv2.cvtColor(image_sub, cv2.COLOR_BGR2RGB)
+    # plt.imshow(image_sub)
+    # plt.show()
+
+    image_lab = cv2.cvtColor(image_sub, cv2.COLOR_BGR2Lab)
     L, a, b = cv2.split(image_lab)
+    # pdb.set_trace()
 
     a = a.reshape((rows*cols, 1))[:,0]
     b = b.reshape((rows*cols, 1))[:,0]
@@ -47,14 +58,14 @@ for file_name in files:
     ax = fig.add_subplot(111)
 
     h, xedges, yedges, image = ax.hist2d(a, b, bins=20, range=[[120, 140], [120, 140]], cmap=cm.jet)
-    # h, xedges, yedges, image = ax.hist2d(df.iloc[:, 0], df.iloc[:, 1], bins=40, cmap=cm.jet)
+    # h, xedges, yedges, image = ax.hist2d(a, b, bins=40, cmap=cm.jet)
     ax.set_title('2D Histogram')
     ax.set_xlabel('a')
     ax.set_ylabel('b')
     fig.colorbar(image,ax=ax)
 
-    # output = 'hist2d_' + class_id + '_' + id + '_lab.png'
-    # fig.savefig(output)
+    output = 'hist2d_' + class_id + '_' + id + '_lab.png'
+    fig.savefig(output)
     # plt.show()
 
     # pdb.set_trace()
