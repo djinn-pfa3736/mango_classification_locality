@@ -29,24 +29,30 @@ h_c[126:130, 126:130] = 0
 
 temp_a = np.zeros_like(h_a)
 temp_a_ratio = np.zeros_like(h_a)
-# abc = h_a/np.max(h_a) - h_b/np.max(h_b) - h_c/np.max(h_c)
-# a_ind = np.where(abc > 0.0, True, False)
-ab = h_a/np.max(h_a) - h_b/np.max(h_b)
-a_ind = np.where(ab > 0.0, True, False)
+
+abc = h_a/np.max(h_a) - h_b/np.max(h_b) - h_c/np.max(h_c)
+a_ind = np.where(abc > 0.0, True, False)
+
+# ab = h_a/np.max(h_a) - h_b/np.max(h_b)
+# a_ind = np.where(ab > 0.0, True, False)
+
 temp_a[a_ind] = 1.0
-# temp_a_ratio[a_ind] = abc[a_ind]/np.max(abc[a_ind])
-temp_a_ratio[a_ind] = ab[a_ind]/np.max(ab[a_ind])
+temp_a_ratio[a_ind] = abc[a_ind]/np.max(abc[a_ind])
+# temp_a_ratio[a_ind] = ab[a_ind]/np.max(ab[a_ind])
 temp_a_org = h_a/np.max(h_a)
 
 temp_b = np.zeros_like(h_b)
 temp_b_ratio = np.zeros_like(h_b)
-# bac = h_b/np.max(h_b) - h_a/np.max(h_a) - h_c/np.max(h_c)
-# b_ind = np.where(bac > 0.0, True, False)
-ba = h_b/np.max(h_b) - h_a/np.max(h_a)
-b_ind = np.where(ba > 0.0, True, False)
+
+bac = h_b/np.max(h_b) - h_a/np.max(h_a) - h_c/np.max(h_c)
+b_ind = np.where(bac > 0.0, True, False)
+
+# ba = h_b/np.max(h_b) - h_a/np.max(h_a)
+# b_ind = np.where(ba > 0.0, True, False)
+
 temp_b[b_ind] = 1.0
-# temp_b_ratio[b_ind] = bac[b_ind]/np.max(bac[b_ind])
-temp_b_ratio[b_ind] = ba[b_ind]/np.max(ba[b_ind])
+temp_b_ratio[b_ind] = bac[b_ind]/np.max(bac[b_ind])
+# temp_b_ratio[b_ind] = ba[b_ind]/np.max(ba[b_ind])
 temp_b_org = h_b/np.max(h_b)
 
 temp_c = np.zeros_like(h_c)
